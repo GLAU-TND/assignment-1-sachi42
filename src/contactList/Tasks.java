@@ -1,162 +1,112 @@
 package contactList;
 
-import Node.Node;
+import appHelperLinkedList.LinkedList1;
 import Person.Person;
 
+import java.util.LinkedList;
+import java.util.Scanner;
+
 public class Tasks {
-    Person person;
-    private Node first;
-    private Node last;
+    Scanner scanner = new Scanner(System.in);
+    LinkedList<String> linkedList = new LinkedList<>();
 
-    public void addLast(Person person) {
-        Node node = new Node(person);
-        if (isEmpty()) {
-            first = node;
-            last = node;
-        } else {
-            last.setNext(node);
-            last = node;
-        }
-    }
-
-    public void addFirst(Person person) {
-        Node node = new Node(person);
-        if (isEmpty()) {
-            first = node;
-            last = node;
-        } else {
-            node.setNext(first);
-            first = node;
-        }
-    }
-
-    public boolean isEmpty() {
-        boolean response = false;
-        if (first == null) {
-            response = true;
-        }
-        return response;
-    }
-
-    public boolean exist(String firstName) {
-        if (indexOf(firstName) != -1) {
-            return true;
-        }
-        return false;
-    }
-
-    public int indexOf(String firstName) {
-        Node currently = first;
-        int response = 0;
-        while (currently != null) {
-            if (currently.getValue().getFirstName().equals(firstName)) {
-                return response;
+    public void addContact(LinkedList1 linkedList1) {
+        System.out.println("You have chosen to add a new contact: \n" +
+                "Please enter the name of the Person");
+        System.out.println("First Name : ");
+        String firstName = scanner.nextLine().trim();
+        while (true) {
+            if (firstName.matches("[A-Za-z]+")) {
+                break;
+            } else {
+                System.out.println("Please enter correct name");
             }
-            response++;
-            currently = currently.getNext();
+            firstName = scanner.nextLine().trim();
         }
-        return -1;
-    }
-
-    public void removeFirst() {
-        if (first == last) {
-            first = null;
-            last = null;
-        } else {
-            Node second = first.getNext();
-            first = second;
-        }
-    }
-
-    public void removeLast() {
-        var previousNode = getPreviousNode(last);
-        last = previousNode;
-        last.setNext(null);
-    }
-
-    private Node getPreviousNode(Node node) {
-        var current = first;
-        while (current.getNext() != null) {
-            if (current.getNext() == node) {
-                return current;
+        System.out.println("Last Name : ");
+        String lastName = scanner.nextLine().trim();
+        while (true) {
+            if (lastName.matches("[A-Za-z]+")) {
+                break;
+            } else {
+                System.out.println("Please enter correct name");
             }
-            current = current.getNext();
+            lastName = scanner.nextLine().trim();
         }
-        return null;
-    }
-
-    public void deleteNode(int position) {
-        if (first == null)
-            return;
-        Node temp = first;
-        if (position == 0) {
-            first = temp.getNext();
-            return;
-        }
-        for (int i = 0; temp != null && i < position - 1; i++)
-            temp = temp.getNext();
-        if (temp == null || temp.getNext() == null)
-            return;
-        Node next = temp.getNext().getNext();
-        temp.setNext(next);
-    }
-
-    public int size() {
-        var current = first;
-        int index = 1;
-        while (current.getNext() != null) {
-            current = current.getNext();
-            index++;
-        }
-        return index;
-    }
-
-    public void display() {
-        var current = first;
-        System.out.println("Contact list--->");
-        System.out.println();
-        while (current != null) {
-            System.out.println("-----------------------*-------------------------");
-            System.out.println("Name:" + current.getValue().getFirstName() + " " + current.getValue().getLastName());
-            System.out.println("Contacts:" + current.getValue().getContacts().toString());
-            System.out.println("Email:" + current.getValue().getEmail());
-            System.out.println("------------------------*-------------------------");
-            System.out.println();
-            current = current.getNext();
-        }
-        System.out.println();
-    }
-
-    public void displayOne() {
-        var current = first;
-        int count = 0;
-        System.out.println("-----------------------*-------------------------");
-        while (current != null) {
-            System.out.println(count + " Name:" + current.getValue().getFirstName() + " " + current.getValue().getLastName());
-            current = current.getNext();
-            count++;
-        }
-        System.out.println("------------------------*-------------------------");
-        System.out.println();
-    }
-
-    public void getNode(int pos) {
-        var current = first;
-        int index = 0;
-        while (current != null) {
-            if (index == pos) {
-                System.out.println();
-                System.out.println("-----------------------*-------------------------");
-                System.out.println("Name:" + current.getValue().getFirstName() + " " + current.getValue().getLastName());
-                System.out.println("Contacts:" + current.getValue().getContacts().toString());
-                System.out.println("Email:" + current.getValue().getEmail());
-                System.out.println("------------------------*-------------------------");
-                System.out.println();
+        System.out.println("Contact Number:");
+        while (true) {
+            String contact = scanner.nextLine().trim();
+            if (contact.matches("[0-9]{10}")) {
+                linkedList.add(contact);
                 break;
             }
-            index++;
-            current = current.getNext();
+        }
+        while (true) {
+            System.out.println("Would you like to add another contact number? (y/n):");
+            char choice = scanner.next().charAt(0);
+            if (choice == 'y') {
+                System.out.println("Conatct Number : ");
+                String contactNumber1 = scanner.nextLine().trim();
+                while (true) {
+                    if (contactNumber1.matches("[0-9]{10}")) {
+                        linkedList.add(contactNumber1);
+                        break;
+                    } else {
+                        System.out.println("Add correct number");
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+        System.out.println("Enter your email address:");
+        scanner.nextLine();
+        while (true) {
+            String temp = scanner.nextLine();
+            if (temp.matches("^[a-z]+[0-9]*@[a-z]+\\.[a-z]+$")) {
+                linkedList1.addLast(new Person(firstName, lastName, linkedList, temp));
+                break;
+            } else {
+                System.out.println("Invalid email address ! Enter again");
+            }
         }
     }
+
+    public void viewcontact(LinkedList1 linkedList1) {
+        System.out.println("---Here are all your contacts---");
+        if (!linkedList1.isEmpty()) {
+            linkedList1.display();
+        } else {
+            System.out.println("NO results found");
+        }
+    }
+
+    public void deleteContact(LinkedList1 linkedList1) {
+        if (!linkedList1.isEmpty()) {
+            System.out.println("Here are all the contacts: Press the number against" +
+                    " to delete the contact.");
+            linkedList1.displayOne();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            linkedList1.deleteNode(choice);
+            linkedList1.displayOne();
+            System.out.println("Deleted..!!");
+        } else {
+            System.out.println("No Contacts.You must need to add contacts Before you could delete..");
+        }
+    }
+
+
+    public void searchContact(LinkedList1 linkedList1) {
+        System.out.println("You could search for a contact from their first names: ");
+        String firstName = scanner.nextLine().trim();
+        if (linkedList1.indexOf(firstName) >= 0) {
+            System.out.println("Match found");
+            linkedList1.getNode(linkedList1.indexOf(firstName));
+        } else {
+            System.out.println("No match found");
+        }
+    }
+
 
 }
