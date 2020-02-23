@@ -1,9 +1,9 @@
-package appHelperLinkedList;
+package contactList;
 
 import Node.Node;
 import Person.Person;
 
-public class LinkedList1 {
+public class Tasks {
     Person person;
     private Node first;
     private Node last;
@@ -158,4 +158,5 @@ public class LinkedList1 {
             current = current.getNext();
         }
     }
+
 }
